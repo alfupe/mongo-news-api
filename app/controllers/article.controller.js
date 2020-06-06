@@ -1,6 +1,9 @@
 const db = require('../models');
 const Article = db.articles;
 
+/**********************************
+ ******* REQUIRED ENDPOINTS *******
+ **********************************/
 // Create and Save a new Article
 exports.create = (req, res) => {
     // Validate request
@@ -17,7 +20,7 @@ exports.create = (req, res) => {
         date: req.body.date,
         content: req.body.content,
         author: req.body.author,
-        archiveDate: req.body.archiveDate,
+        archiveDate: req.body.archiveDate
     });
 
     // Save Article in the database
@@ -33,6 +36,61 @@ exports.create = (req, res) => {
         });
 };
 
+
+// Retrieve all Articles not archived from the database.
+exports.findAllPublished = (req, res) => {
+    Article.find({archiveDate: { $exists: false }})
+        .sort({date: -1})
+        .then(data => {
+            res.send(data);
+        })
+        .catch(error => {
+            res.status(500).send({
+                message: error.message || 'Some error occurred while retrieving articles.'
+            });
+        });
+};
+
+// Find all published Articles
+exports.findAllArchived = (req, res) => {
+    Article.find({archiveDate: { $exists: true }})
+        .sort({archiveDate: -1})
+        .then(data => {
+            res.send(data);
+        })
+        .catch(error => {
+            res.status(500).send({
+                message: error.message || 'Some error occurred while retrieving articles.'
+            });
+        })
+};
+
+// Delete a Article with the specified id in the request
+exports.delete = (req, res) => {
+    const id = req.params.id;
+
+    Article.findByIdAndRemove(id)
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot delete Article with id=${id}. Maybe Article was not found!`
+                });
+            } else {
+                res.send({
+                    message: 'Article was deleted successfully!'
+                });
+            }
+        })
+        .catch(error => {
+            res.status(500).send({
+                message: `Could not delete Article with id=${id}`
+            });
+        });
+};
+
+/**********************************
+ ******* EXTRA ENDPOINTS *******
+ **********************************/
 // Retrieve all Articles from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;
@@ -92,29 +150,6 @@ exports.update = (req, res) => {
         });
 };
 
-// Delete a Article with the specified id in the request
-exports.delete = (req, res) => {
-    const id = req.params.id;
-
-    Article.findByIdAndRemove(id)
-        .then(data => {
-            if (!data) {
-                res.status(404).send({
-                    message: `Cannot delete Article with id=${id}. Maybe Article was not found!`
-                });
-            } else {
-                res.send({
-                    message: 'Article was deleted successfully!'
-                });
-            }
-        })
-        .catch(error => {
-            res.status(500).send({
-                message: `Could not delete Article with id=${id}`
-            });
-        });
-};
-
 // Delete all Articles from the database.
 exports.deleteAll = (req, res) => {
     Article.deleteMany({})
@@ -128,32 +163,4 @@ exports.deleteAll = (req, res) => {
                 message: error.message || 'Some error occurred while removing all articles.'
             });
         });
-};
-
-// Retrieve all Articles not archived from the database.
-exports.findAllPublished = (req, res) => {
-    Article.find({archiveDate: { $exists: false }})
-        .sort({date: -1})
-        .then(data => {
-            res.send(data);
-        })
-        .catch(error => {
-            res.status(500).send({
-                message: error.message || 'Some error occurred while retrieving articles.'
-            });
-        });
-};
-
-// Find all published Articles
-exports.findAllArchived = (req, res) => {
-    Article.find({archiveDate: { $exists: true }})
-        .sort({archiveDate: -1})
-        .then(data => {
-            res.send(data);
-        })
-        .catch(error => {
-            res.status(500).send({
-                message: error.message || 'Some error occurred while retrieving articles.'
-            });
-        })
 };

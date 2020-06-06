@@ -30,7 +30,7 @@ db.mongoose
 
 // simple route
 app.get('/', (req, res) => {
-    res.json({message: 'Welcome to alfupe app'});
+    res.json({message: 'Welcome to Mongo News API'});
 });
 
 // Tutorial routes

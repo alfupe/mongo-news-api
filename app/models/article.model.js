@@ -13,7 +13,7 @@ module.exports = mongoose => {
         }*/
     );
 
-    // override toJSON para personalizar properties
+    // override toJSON to customize some properties
     schema.method('toJSON', function () {
         const {__v, _id, ...object} = this.toObject();
         object.id = _id;
