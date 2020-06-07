@@ -19,8 +19,7 @@ exports.create = (req, res) => {
         description: req.body.description,
         date: req.body.date,
         content: req.body.content,
-        author: req.body.author,
-        archiveDate: req.body.archiveDate
+        author: req.body.author
     });
 
     // Save Article in the database

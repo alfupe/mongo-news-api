@@ -17,6 +17,9 @@ module.exports = app => {
     // Delete a Article with id
     router.delete("/:id", articles.delete);
 
+    // Update a Article with id
+    router.put("/:id", articles.update);
+
     /**********************************
      ******* EXTRA ENDPOINTS *******
      **********************************/
@@ -25,9 +28,6 @@ module.exports = app => {
 
     // Retrieve a single Article with id
     router.get("/:id", articles.findOne);
-
-    // Update a Article with id
-    router.put("/:id", articles.update);
 
     // Create a new Article
     router.delete("/", articles.deleteAll);
