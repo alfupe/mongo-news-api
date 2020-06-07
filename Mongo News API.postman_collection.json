@@ -1,0 +1,501 @@
+{
+	"info": {
+		"_postman_id": "80a0b7bd-7000-4cc8-839f-f0e331e1966c",
+		"name": "Mongo News API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Find All",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d9fa9dd6-8b7e-4689-930d-501c7af1c607",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a803f23-5a00-4b9c-ac13-80862a312437",
+						"exec": [
+							"pm.test(\"should not have archiveDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(jsonData).to.not.have.property('archiveDate');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/5edcb72b4aecb27f0ed9e29f",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"5edcb72b4aecb27f0ed9e29f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7bfcef8f-507a-489a-bf7f-1e6c00f91b3b",
+						"exec": [
+							"pm.test(\"response should contain string\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.text()).to.include(\"Article was deleted successfully!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/5edcd4dfe10d5686e2f0cadd",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"5edcd4dfe10d5686e2f0cadd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete non existent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e74663f1-fd82-4504-acd4-cf26f798dfe9",
+						"exec": [
+							"pm.test(\"response should contain string\", function () {",
+							"    pm.response.to.have.status(500);",
+							"    pm.expect(pm.response.text()).to.include(\"Could not delete Article with id=1234\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/1234",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b0c839c-d959-4cc4-8cee-0fd7844a74fc",
+						"exec": [
+							"pm.test(\"response should contain string\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.text()).to.include(\"Articles were deleted successfully!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find By title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/?title=Article 1",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Article 1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find All Archived",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/archived",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"archived"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find All Published",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/published",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"published"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a1771fd5-408c-4b6d-94b8-44cd952ba00e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Article 1 updated postman\",\n\t\"description\": \"Descripción article 1 updated postman\",\n\t\"content\": \"Lorem ipsum dolor sit amet updated\",\n\t\"author\": \"Alex Fuentes\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/5ed78577323778146dc91bd3",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"5ed78577323778146dc91bd3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Archive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a3a4b12a-2407-418b-a23d-d2ab01860b10",
+						"exec": [
+							"pm.test(\"response should contain string\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.text()).to.include(\"Article was updated successfully.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"archiveDate\": \"{{current_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/5edcd4dfe10d5686e2f0cadd",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"5edcd4dfe10d5686e2f0cadd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Archive non existent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "73505142-f29a-4392-9155-d5b06c2907eb",
+						"exec": [
+							"pm.test(\"response should contain string\", function () {",
+							"    pm.response.to.have.status(500);",
+							"    pm.expect(pm.response.text()).to.include(\"Error updating Article with id=1234\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"archiveDate\": \"{{current_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}/1234",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "76b93167-197b-45f8-b691-5cf4af3f654a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e52e373-8a8e-431c-b90e-6b7caad79494",
+						"exec": [
+							"pm.test(\"should have the provided properties but lack of archiveDate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(jsonData).to.have.property('title');",
+							"    pm.expect(jsonData).to.have.property('description');",
+							"    pm.expect(jsonData).to.have.property('content');",
+							"    pm.expect(jsonData).to.have.property('author');",
+							"    pm.expect(jsonData).to.have.property('date');",
+							"    pm.expect(jsonData).to.not.have.property('archiveDate');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Article Postman\",\n\t\"description\": \"Descripción artículo Postman\",\n\t\"content\": \"Lorem ipsum dolor sit amet\",\n\t\"author\": \"Postman\",\n\t\"date\": \"{{current_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create without required title",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2a161810-fad8-4308-846c-cadf64d2d912",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "69fa1a9e-e134-41d0-9a28-bde160b43a19",
+						"exec": [
+							"pm.test(\"should get a 400 response due to the lack of required field\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.text()).to.include(\"Content cannot be empty\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"Descripción artículo Postman\",\n\t\"content\": \"Lorem ipsum dolor sit amet\",\n\t\"author\": \"Postman\",\n\t\"date\": \"{{current_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{PROTOCOL}}://{{API_URL}}/{{API_PREFIX}}",
+					"protocol": "{{PROTOCOL}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"{{API_PREFIX}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "39c492a5-5419-4205-923f-f35be92f20a5",
+				"type": "text/javascript",
+				"exec": [
+					"//const moment = require('moment');",
+					"//pm.globals.set(\"timestamp\", moment().format(\"MM/DD/YYYY\"));",
+					"var current_timestamp = new Date();",
+					"pm.environment.set(\"current_date\", current_timestamp.toJSON());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9f5c4f45-f422-456d-b54f-0282059b6909",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
