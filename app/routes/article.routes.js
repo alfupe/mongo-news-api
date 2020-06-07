@@ -29,7 +29,7 @@ module.exports = app => {
     // Retrieve a single Article with id
     router.get("/:id", articles.findOne);
 
-    // Create a new Article
+    // Delete all Articles from the database
     router.delete("/", articles.deleteAll);
 
     app.use('/api/articles', router);
